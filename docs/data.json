@@ -3,33 +3,25 @@
     {
       "name": "纳斯达克100",
       "data": [
-        { "date_range": "10.14 - 10.20", "invest": 100, "total_invest": 100, "current_value": 120 },
-        {"date_range": "10.21 - 10.27", "invest": 100, "total_invest": 200, "current_value": 250 },
-        {  "date_range": "10.28 - 11.03", "invest": 100, "total_invest": 300, "current_value": 400 }
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
       ]
     },
     {
       "name": "标普500",
       "data": [
-        { "date_range": "10.14 - 10.20", "invest": 100, "total_invest": 100, "current_value": 115 },
-        {  "date_range": "10.21 - 10.27", "invest": 100, "total_invest": 200, "current_value": 240 },
-        {  "date_range": "10.28 - 11.03", "invest": 100, "total_invest": 300, "current_value": 350 }
+        { "date_range": "10.13 - 10.19", "invest": 100, "total_invest": 100, "current_value": 100 },
       ]
     },
     {
       "name": "黄金",
       "data": [
-        {"date_range": "10.14 - 10.20", "invest": 100, "total_invest": 100, "current_value": 105 },
-        { "date_range": "10.21 - 10.27", "invest": 100, "total_invest": 200, "current_value": 210 },
-        {  "date_range": "10.28 - 11.03", "invest": 100, "total_invest": 300, "current_value": 290 }
+        {"date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
       ]
     },
     {
       "name": "全球债券",
       "data": [
-        {  "date_range": "10.14 - 10.20", "invest": 100, "total_invest": 100, "current_value": 98 },
-        {  "date_range": "10.21 - 10.27", "invest": 100, "total_invest": 200, "current_value": 200 },
-        { "date_range": "10.28 - 11.03", "invest": 100, "total_invest": 300, "current_value": 295 }
+        {  "date_range": "10.14 - 10.20", "invest": 10, "total_invest": 10, "current_value": 10 },
       ]
     }
   ]
