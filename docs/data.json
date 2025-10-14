@@ -3,6 +3,28 @@
     {
       "name": "纳斯达克100",
       "data": [
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 },
+
         { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 }
 
       ]
