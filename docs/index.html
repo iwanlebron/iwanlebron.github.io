@@ -284,6 +284,80 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Links section */
+        .links-section {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            border: 1px solid #e2e8f0;
+        }
+
+        .links-section h3 {
+            color: #0f766e;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .links-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            color: #0f766e;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .link-item:hover {
+            background: rgba(15, 118, 110, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-item i {
+            font-size: 1.2em;
+        }
+
+        /* QQ群信息样式 */
+        .qq-info {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #0f766e;
+            backdrop-filter: blur(10px);
+            cursor: default;
+        }
+
+        .qq-number {
+            background: #0f766e;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
         /* Responsive design */
         @media (max-width: 768px) {
             .summary-content {
@@ -313,6 +387,17 @@
             th, td {
                 padding: 10px 8px;
             }
+
+            .links-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .link-item, .qq-info {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -320,7 +405,7 @@
 
 <div class="container">
     <div class="header">
-        <h1><i class="fas fa-chart-line"></i>2025多资产定投追踪</h1>
+        <h1><i class="fas fa-chart-line"></i>2025多资产定投追踪（十年定投计划）</h1>
     </div>
 
     <div id="summary" class="summary-card">
@@ -333,6 +418,24 @@
     <div class="main-card">
         <div id="tab-buttons" class="tabs"></div>
         <div id="tab-contents"></div>
+    </div>
+
+    <div class="links-section">
+        <h3><i class="fas fa-link"></i> 相关链接</h3>
+        <div class="links-container">
+            <a href="https://space.bilibili.com/244252764" target="_blank" class="link-item">
+                <i class="fab fa-bilibili"></i>
+                <span>B站频道</span>
+            </a>
+            <a href="https://github.com/iwanlebron" target="_blank" class="link-item">
+                <i class="fab fa-github"></i>
+                <span>GitHub主页</span>
+            </a>
+            <div class="qq-info">
+                <i class="fab fa-qq"></i>
+                <span>QQ交流群：1032519465</span>
+            </div>
+        </div>
     </div>
 </div>
 
