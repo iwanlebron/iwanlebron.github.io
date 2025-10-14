@@ -4,105 +4,333 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2025定投计划追踪</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: "Microsoft YaHei", sans-serif;
-            background: #f9fafb;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             margin: 0;
             padding: 20px;
             color: #374151;
-            font-weight: bold; /* ✅ 添加这一行，使字体加粗 */
+            min-height: 100vh;
         }
+
         .container {
-            max-width: 850px;
+            max-width: 900px;
             margin: 0 auto;
         }
-        h1 {
+
+        .header {
             text-align: center;
-            color: #047857;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .header h1 {
+            color: #0f766e;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(15, 118, 110, 0.1);
+        }
+
+        .header i {
+            color: #0f766e;
+            margin-right: 12px;
+            font-size: 1.4em;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            padding: 30px;
             margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
         }
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-            padding: 25px;
-            margin-bottom: 20px;
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0f766e, #0d9488);
         }
-        .summary {
+
+        .summary-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 25px;
             text-align: center;
-            font-size: 1.1em;
-            line-height: 1.8;
         }
+
+        .summary-item {
+            padding: 15px 25px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            min-width: 200px;
+            backdrop-filter: blur(10px);
+        }
+
+        .summary-label {
+            font-size: 1em;
+            color: #64748b;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .summary-value {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #0f766e;
+        }
+
+        .profit-positive {
+            color: #ef4444 !important;
+        }
+
+        .profit-negative {
+            color: #22c55e !important;
+        }
+
+        .profit-neutral {
+            color: #64748b !important;
+        }
+
+        .main-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            padding: 30px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0d9488, #0f766e);
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 25px;
+            padding-bottom: 5px;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 1.1em;
+            color: #64748b;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            color: #0f766e;
+            background: rgba(15, 118, 110, 0.05);
+        }
+
+        .tab-button.active {
+            color: #0f766e;
+            background: rgba(15, 118, 110, 0.1);
+            border-bottom-color: #0f766e;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0f766e;
+        }
+
+        .content-header p {
+            font-size: 1.1em;
+            margin: 0;
+            line-height: 1.6;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .header-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-label {
+            font-size: 0.9em;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .header-value {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #0f766e;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 15px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        th {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-weight: 700;
+            color: #0f766e;
+            padding: 16px 12px;
+            text-align: center;
+            font-size: 1.05em;
+            border-bottom: 2px solid #cbd5e1;
+        }
+
+        td {
+            padding: 14px 12px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(241, 245, 249, 0.7);
+        }
+
+        .date-range {
+            display: block;
+            font-size: 0.85em;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
         .highlight {
-            color: #059669;
-            font-weight: bold;
+            color: #0f766e;
+            font-weight: 700;
             font-size: 1.1em;
         }
+
         .profit { color: #ef4444; }
         .loss { color: #22c55e; }
         .neutral { color: #6b7280; }
 
-        .tabs {
-            display: flex;
-            border-bottom: 2px solid #e5e7eb;
-        }
-        .tab-button {
-            padding: 10px 20px;
-            cursor: pointer;
-            border: none;
-            background-color: transparent;
-            font-size: 1em;
-            color: #6b7280;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
-        }
-        .tab-button.active {
-            color: #047857;
-            font-weight: bold;
-            border-bottom-color: #047857;
-        }
-        .tab-content {
-            display: none;
-            padding-top: 20px;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        th, td {
-            border-bottom: 1px solid #e5e7eb;
+        /* Loading state */
+        .loading {
             text-align: center;
-            padding: 12px 8px;
+            padding: 40px;
+            color: #64748b;
         }
-        th {
-            background-color: #f9fafb;
-            font-weight: 600;
+
+        .loading i {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #0f766e;
+            animation: spin 1s linear infinite;
         }
-        .content-header p {
-            font-size: 1em;
-            margin: 0;
-            line-height: 1.6;
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-        .date-range {
-            display: block;
-            font-size: 0.8em;
-            color: #9ca3af;
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .summary-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .summary-item {
+                min-width: auto;
+                width: 100%;
+            }
+
+            .content-header p {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .tab-button {
+                padding: 10px 16px;
+                font-size: 0.95em;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>📈 2025多资产定投追踪</h1>
+    <div class="header">
+        <h1><i class="fas fa-chart-line"></i>2025多资产定投追踪</h1>
+    </div>
 
-    <div id="summary" class="card summary"></div>
+    <div id="summary" class="summary-card">
+        <div class="loading">
+            <i class="fas fa-spinner"></i>
+            <p>正在加载数据...</p>
+        </div>
+    </div>
 
-    <div class="card">
+    <div class="main-card">
         <div id="tab-buttons" class="tabs"></div>
         <div id="tab-contents"></div>
     </div>
@@ -128,7 +356,7 @@
 
                 const button = document.createElement("button");
                 button.className = "tab-button";
-                button.textContent = cat.name;
+                button.innerHTML = `<i class="fas fa-wallet"></i> ${cat.name}`;
                 button.dataset.tabIndex = index;
                 tabButtonsDiv.appendChild(button);
 
@@ -136,14 +364,13 @@
                 let profitClass = profitRate > 0 ? 'profit' : (profitRate < 0 ? 'loss' : 'neutral');
                 const formattedProfitRate = `${profitRate > 0 ? '+' : ''}${profitRate.toFixed(2)}%`;
 
-                // --- MODIFICATION: Read date_range directly from the data object ---
                 const tableRows = cat.data.map(row => {
                     return `
                       <tr>
                         <td>${row.date_range}</td>
-                        <td>${row.invest.toFixed(2)}</td>
-                        <td>${row.total_invest.toFixed(2)}</td>
-                        <td>${row.current_value.toFixed(2)}</td>
+                        <td>$${row.invest.toFixed(2)}</td>
+                        <td>$${row.total_invest.toFixed(2)}</td>
+                        <td>$${row.current_value.toFixed(2)}</td>
                       </tr>`;
                 }).join("");
 
@@ -152,9 +379,20 @@
                 content.dataset.tabIndex = index;
                 content.innerHTML = `
                   <div class="content-header">
-                    <p>累计投入: <span class="highlight">$${last.total_invest.toFixed(2)}</span>　
-                    当前总资产: <span class="highlight">$${last.current_value.toFixed(2)}</span>　
-                    收益率: <span class="highlight ${profitClass}">${formattedProfitRate}</span></p>
+                    <p>
+                      <span class="header-item">
+                        <span class="header-label">累计投入</span>
+                        <span class="header-value">$${last.total_invest.toFixed(2)}</span>
+                      </span>
+                      <span class="header-item">
+                        <span class="header-label">当前总资产</span>
+                        <span class="header-value">$${last.current_value.toFixed(2)}</span>
+                      </span>
+                      <span class="header-item">
+                        <span class="header-label">收益率</span>
+                        <span class="header-value ${profitClass}">${formattedProfitRate}</span>
+                      </span>
+                    </p>
                   </div>
                   <table>
                     <thead>
@@ -172,28 +410,45 @@
             });
 
             tabButtonsDiv.addEventListener("click", (e) => {
-                if (e.target.classList.contains("tab-button")) {
-                    const tabIndex = e.target.dataset.tabIndex;
+                if (e.target.classList.contains("tab-button") || e.target.parentElement.classList.contains("tab-button")) {
+                    const clickedElement = e.target.classList.contains("tab-button") ? e.target : e.target.parentElement;
+                    const tabIndex = clickedElement.dataset.tabIndex;
                     tabButtonsDiv.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
                     tabContentsDiv.querySelectorAll(".tab-content").forEach(cont => cont.classList.remove("active"));
-                    e.target.classList.add("active");
+                    clickedElement.classList.add("active");
                     tabContentsDiv.querySelector(`.tab-content[data-tab-index="${tabIndex}"]`).classList.add("active");
                 }
             });
 
             const totalProfitRate = totalInvest > 0 ? ((totalCurrent - totalInvest) / totalInvest * 100) : 0;
-            let totalProfitClass = totalProfitRate > 0 ? 'profit' : (totalProfitRate < 0 ? 'loss' : 'neutral');
+            let totalProfitClass = totalProfitRate > 0 ? 'profit-positive' : (totalProfitRate < 0 ? 'profit-negative' : 'profit-neutral');
             const formattedTotalProfitRate = `${totalProfitRate > 0 ? '+' : ''}${totalProfitRate.toFixed(2)}%`;
 
             document.getElementById("summary").innerHTML = `
-              累计投入: <span class="highlight">$${totalInvest.toFixed(2)}</span><br>
-              当前总资产: <span class="highlight">$${totalCurrent.toFixed(2)}</span><br>
-              总收益率: <span class="highlight ${totalProfitClass}">${formattedTotalProfitRate}</span>
+              <div class="summary-content">
+                <div class="summary-item">
+                  <div class="summary-label">累计投入总额</div>
+                  <div class="summary-value">$${totalInvest.toFixed(2)}</div>
+                </div>
+                <div class="summary-item">
+                  <div class="summary-label">当前总资产</div>
+                  <div class="summary-value">$${totalCurrent.toFixed(2)}</div>
+                </div>
+                <div class="summary-item">
+                  <div class="summary-label">总收益率</div>
+                  <div class="summary-value ${totalProfitClass}">${formattedTotalProfitRate}</div>
+                </div>
+              </div>
             `;
 
         } catch (error) {
-            console.error("Could not load data:", error);
-            document.getElementById("summary").innerHTML = "数据加载失败，请检查data.json文件或网络连接。";
+            console.error("Could not load ", error);
+            document.getElementById("summary").innerHTML = `
+              <div style="text-align: center; padding: 30px; color: #ef4444;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 2em; margin-bottom: 15px;"></i>
+                <p>数据加载失败，请检查data.json文件或网络连接。</p>
+              </div>
+            `;
         }
     }
 
