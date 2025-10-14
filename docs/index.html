@@ -1,12 +1,203 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello GitHub Pages</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2025定投计划追踪</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: #f9fafb;
+            margin: 0;
+            padding: 20px;
+            color: #374151;
+        }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #047857;
+            margin-bottom: 25px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .summary {
+            text-align: center;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        .highlight {
+            color: #059669;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .profit { color: #ef4444; }
+        .loss { color: #22c55e; }
+        .neutral { color: #6b7280; }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            font-size: 1em;
+            color: #6b7280;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+        .tab-button.active {
+            color: #047857;
+            font-weight: bold;
+            border-bottom-color: #047857;
+        }
+        .tab-content {
+            display: none;
+            padding-top: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border-bottom: 1px solid #e5e7eb;
+            text-align: center;
+            padding: 12px 8px;
+        }
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+        .content-header p {
+            font-size: 1em;
+            margin: 0;
+            line-height: 1.6;
+        }
+        .date-range {
+            display: block;
+            font-size: 0.8em;
+            color: #9ca3af;
+        }
+    </style>
 </head>
 <body>
-  <h1>你好，GitHub Pages！</h1>
+
+<div class="container">
+    <h1>📈 2025多资产定投追踪</h1>
+
+    <div id="summary" class="card summary"></div>
+
+    <div class="card">
+        <div id="tab-buttons" class="tabs"></div>
+        <div id="tab-contents"></div>
+    </div>
+</div>
+
+<script>
+    async function loadData() {
+        try {
+            const response = await fetch('data.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+
+            const tabButtonsDiv = document.getElementById("tab-buttons");
+            const tabContentsDiv = document.getElementById("tab-contents");
+            let totalInvest = 0, totalCurrent = 0;
+
+            data.categories.forEach((cat, index) => {
+                const last = cat.data[cat.data.length - 1];
+                totalInvest += last.total_invest;
+                totalCurrent += last.current_value;
+
+                const button = document.createElement("button");
+                button.className = "tab-button";
+                button.textContent = cat.name;
+                button.dataset.tabIndex = index;
+                tabButtonsDiv.appendChild(button);
+
+                const profitRate = last.total_invest > 0 ? ((last.current_value - last.total_invest) / last.total_invest * 100) : 0;
+                let profitClass = profitRate > 0 ? 'profit' : (profitRate < 0 ? 'loss' : 'neutral');
+                const formattedProfitRate = `${profitRate > 0 ? '+' : ''}${profitRate.toFixed(2)}%`;
+
+                // --- MODIFICATION: Read date_range directly from the data object ---
+                const tableRows = cat.data.map(row => {
+                    return `
+                      <tr>
+                        <td>${row.date_range}</td>
+                        <td>${row.invest.toFixed(2)}</td>
+                        <td>${row.total_invest.toFixed(2)}</td>
+                        <td>${row.current_value.toFixed(2)}</td>
+                      </tr>`;
+                }).join("");
+
+                const content = document.createElement("div");
+                content.className = "tab-content";
+                content.dataset.tabIndex = index;
+                content.innerHTML = `
+                  <div class="content-header">
+                    <p>累计投入: <span class="highlight">$${last.total_invest.toFixed(2)}</span>　
+                    当前总资产: <span class="highlight">$${last.current_value.toFixed(2)}</span>　
+                    收益率: <span class="highlight ${profitClass}">${formattedProfitRate}</span></p>
+                  </div>
+                  <table>
+                    <thead>
+                      <tr><th>周次 (日期)</th><th>本周投入</th><th>累计投入</th><th>当前资产</th></tr>
+                    </thead>
+                    <tbody>${tableRows}</tbody>
+                  </table>
+                `;
+                tabContentsDiv.appendChild(content);
+
+                if (index === 0) {
+                    button.classList.add("active");
+                    content.classList.add("active");
+                }
+            });
+
+            tabButtonsDiv.addEventListener("click", (e) => {
+                if (e.target.classList.contains("tab-button")) {
+                    const tabIndex = e.target.dataset.tabIndex;
+                    tabButtonsDiv.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
+                    tabContentsDiv.querySelectorAll(".tab-content").forEach(cont => cont.classList.remove("active"));
+                    e.target.classList.add("active");
+                    tabContentsDiv.querySelector(`.tab-content[data-tab-index="${tabIndex}"]`).classList.add("active");
+                }
+            });
+
+            const totalProfitRate = totalInvest > 0 ? ((totalCurrent - totalInvest) / totalInvest * 100) : 0;
+            let totalProfitClass = totalProfitRate > 0 ? 'profit' : (totalProfitRate < 0 ? 'loss' : 'neutral');
+            const formattedTotalProfitRate = `${totalProfitRate > 0 ? '+' : ''}${totalProfitRate.toFixed(2)}%`;
+
+            document.getElementById("summary").innerHTML = `
+              累计投入: <span class="highlight">$${totalInvest.toFixed(2)}</span><br>
+              当前总资产: <span class="highlight">$${totalCurrent.toFixed(2)}</span><br>
+              总收益率: <span class="highlight ${totalProfitClass}">${formattedTotalProfitRate}</span>
+            `;
+
+        } catch (error) {
+            console.error("Could not load data:", error);
+            document.getElementById("summary").innerHTML = "数据加载失败，请检查data.json文件或网络连接。";
+        }
+    }
+
+    loadData();
+</script>
+
 </body>
 </html>
