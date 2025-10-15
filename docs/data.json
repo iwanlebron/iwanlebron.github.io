@@ -1,13 +1,13 @@
 {
   "categories": [
     {
-      "name": "纳斯达克100",
+      "name": "纳指",
       "data": [
         { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 }
       ]
     },
     {
-      "name": "标普500",
+      "name": "标普",
       "data": [
         { "date_range": "10.13 - 10.19", "invest": 100, "total_invest": 100, "current_value": 100 }
       ]
@@ -16,12 +16,6 @@
       "name": "黄金",
       "data": [
         {"date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 }
-      ]
-    },
-    {
-      "name": "全球债券",
-      "data": [
-        {  "date_range": "10.13 - 10.19", "invest": 10, "total_invest": 10, "current_value": 10 }
       ]
     }
   ]
