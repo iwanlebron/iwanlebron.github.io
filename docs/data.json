@@ -3,19 +3,19 @@
     {
       "name": "纳指",
       "data": [
-        { "date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 }
+        { "date_range": "10.13 - 10.19", "invest": 709.99, "total_invest": 709.99, "current_value": 714.39 }
       ]
     },
     {
       "name": "标普",
       "data": [
-        { "date_range": "10.13 - 10.19", "invest": 100, "total_invest": 100, "current_value": 100 }
+        { "date_range": "10.13 - 10.19", "invest": 764.95, "total_invest": 764.95, "current_value": 764.58 }
       ]
     },
     {
       "name": "黄金",
       "data": [
-        {"date_range": "10.13 - 10.19", "invest": 110, "total_invest": 110, "current_value": 110 }
+        {"date_range": "10.13 - 10.19", "invest": 109.96, "total_invest": 109.96, "current_value": 113.74 }
       ]
     }
   ]
