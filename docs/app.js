@@ -173,6 +173,7 @@ const DEFAULT_ITEMS = [
 
 const STATE = {
   refreshedAt: null,
+  nextRefreshAt: null,
   items: DEFAULT_ITEMS.map((x) => ({
     ...x,
     score: null,
@@ -183,6 +184,9 @@ const STATE = {
 };
 
 let hintTimer = null;
+let refreshInFlight = false;
+
+const REFRESH_INTERVAL_MS = 3 * 60 * 1000;
 
 const setHint = (text, { loading = false, autoHideMs = 0 } = {}) => {
   const el = document.getElementById("hint");
@@ -206,12 +210,24 @@ const setHint = (text, { loading = false, autoHideMs = 0 } = {}) => {
   }
 };
 
+const renderHeader = () => {
+  const updatedAt = document.getElementById("updatedAt");
+  if (!updatedAt) return;
+
+  const last = STATE.refreshedAt ? formatUpdatedAt(STATE.refreshedAt) : "—";
+  let next = "";
+  if (STATE.nextRefreshAt) {
+    const sec = Math.max(0, Math.ceil((STATE.nextRefreshAt - Date.now()) / 1000));
+    next = ` · ${sec}s 后刷新`;
+  }
+  updatedAt.textContent = `最后刷新：${last}${next}`;
+};
+
 const render = () => {
   const grid = document.getElementById("grid");
-  const updatedAt = document.getElementById("updatedAt");
-  if (!grid || !updatedAt) return;
+  if (!grid) return;
 
-  updatedAt.textContent = `最后刷新：${STATE.refreshedAt ? formatUpdatedAt(STATE.refreshedAt) : "—"}`;
+  renderHeader();
   grid.replaceChildren(...STATE.items.map(renderCard));
 };
 
@@ -299,7 +315,11 @@ const fetchSentimentFromStooq = async ({ symbol, sourceLabel }) => {
 };
 
 const refreshAll = async () => {
+  if (refreshInFlight) return;
+  refreshInFlight = true;
+
   STATE.refreshedAt = new Date().toISOString();
+  STATE.nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS;
   render();
   setHint("正在更新指数数据…", { loading: true });
 
@@ -334,17 +354,21 @@ const refreshAll = async () => {
 
   if (okCount === 0) {
     setHint("网络有点慢，稍后会自动重试。", { loading: false });
+    refreshInFlight = false;
     return;
   }
 
   if (failCount > 0) {
     setHint("部分数据还在路上，稍后会自动补齐。", { loading: true, autoHideMs: 2500 });
+    refreshInFlight = false;
     return;
   }
 
   setHint("数据已更新。", { loading: false, autoHideMs: 1800 });
+  refreshInFlight = false;
 };
 
 render();
 refreshAll();
-setInterval(refreshAll, 5 * 60 * 1000);
+setInterval(refreshAll, REFRESH_INTERVAL_MS);
+setInterval(renderHeader, 1000);
