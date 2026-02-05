@@ -4,50 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <title data-i18n="app.title">恐慌贪婪指数</title>
+    <title>恐慌贪婪指数</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="container">
       <header>
         <div class="title">
-          <h1 data-i18n="app.title">恐慌贪婪指数</h1>
-          <p class="subtitle" data-i18n="app.subtitle">展示：美股、港股、A股、加密货币</p>
+          <h1>恐慌贪婪指数</h1>
+          <p class="subtitle">展示：美股、港股、A股、加密货币</p>
         </div>
-        <div class="headerRight">
-          <button class="langBtn" id="langToggle" type="button" aria-label="Language">
-            <span class="langShort">中 / EN</span>
-          </button>
-          <div class="pill" id="updatedAt" aria-live="polite">—</div>
-        </div>
+        <div class="pill" id="updatedAt" aria-live="polite">更新时间：—</div>
       </header>
 
-      <main class="grid" id="grid" aria-label="指数列表" data-i18n-aria="app.listAria"></main>
+      <main class="grid" id="grid" aria-label="指数列表"></main>
 
-      <section class="legend" aria-label="分段说明" data-i18n-aria="app.legendAria">
-        <div data-i18n="legend.intro">
+      <section class="legend" aria-label="分段说明">
+        <div>
           数值范围为 0–100：越低代表越恐慌，越高代表越贪婪。加密货币使用 Alternative.me 数据，美股使用 CNN Fear &amp; Greed 数据；A股与港股为基于指数价格计算的情绪分数（0–100）。
         </div>
         <div class="legendRow" role="list">
           <div class="chip" role="listitem">
             <div class="dot danger" aria-hidden="true"></div>
-            <div class="chipText"><strong>0–20</strong><span data-i18n="bucket.extremeFear">极度恐慌</span></div>
+            <div class="chipText"><strong>0–20</strong><span>极度恐慌</span></div>
           </div>
           <div class="chip" role="listitem">
             <div class="dot warning" aria-hidden="true"></div>
-            <div class="chipText"><strong>21–40</strong><span data-i18n="bucket.fear">恐慌</span></div>
+            <div class="chipText"><strong>21–40</strong><span>恐慌</span></div>
           </div>
           <div class="chip" role="listitem">
             <div class="dot neutral" aria-hidden="true"></div>
-            <div class="chipText"><strong>41–60</strong><span data-i18n="bucket.neutral">中性</span></div>
+            <div class="chipText"><strong>41–60</strong><span>中性</span></div>
           </div>
           <div class="chip" role="listitem">
             <div class="dot good" aria-hidden="true"></div>
-            <div class="chipText"><strong>61–80</strong><span data-i18n="bucket.greed">贪婪</span></div>
+            <div class="chipText"><strong>61–80</strong><span>贪婪</span></div>
           </div>
           <div class="chip" role="listitem">
             <div class="dot great" aria-hidden="true"></div>
-            <div class="chipText"><strong>81–100</strong><span data-i18n="bucket.extremeGreed">极度贪婪</span></div>
+            <div class="chipText"><strong>81–100</strong><span>极度贪婪</span></div>
           </div>
         </div>
       </section>

@@ -65,29 +65,6 @@ header {
   margin: 4px 0 14px;
 }
 
-.headerRight {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 0 0 auto;
-}
-
-.langBtn {
-  border: 1px solid var(--panel-border);
-  background: var(--panel);
-  color: var(--muted);
-  padding: 10px 12px;
-  border-radius: 999px;
-  font-size: 12px;
-  line-height: 1;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 12px 32px var(--shadow);
-}
-
-.langBtn:active {
-  transform: translateY(1px);
-}
-
 .title {
   min-width: 0;
 }
