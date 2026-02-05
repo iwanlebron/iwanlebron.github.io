@@ -182,6 +182,30 @@ const STATE = {
   })),
 };
 
+let hintTimer = null;
+
+const setHint = (text, { loading = false, autoHideMs = 0 } = {}) => {
+  const el = document.getElementById("hint");
+  if (!el) return;
+
+  el.textContent = text || "";
+  el.classList.toggle("isLoading", Boolean(loading));
+  el.classList.toggle("isHidden", !text);
+
+  if (hintTimer) window.clearTimeout(hintTimer);
+  hintTimer = null;
+
+  if (autoHideMs > 0) {
+    hintTimer = window.setTimeout(() => {
+      el.classList.add("isHidden");
+      hintTimer = window.setTimeout(() => {
+        el.textContent = "";
+        el.classList.remove("isLoading");
+      }, 220);
+    }, autoHideMs);
+  }
+};
+
 const render = () => {
   const grid = document.getElementById("grid");
   const updatedAt = document.getElementById("updatedAt");
@@ -277,6 +301,7 @@ const fetchSentimentFromStooq = async ({ symbol, sourceLabel }) => {
 const refreshAll = async () => {
   STATE.refreshedAt = new Date().toISOString();
   render();
+  setHint("正在更新指数数据…", { loading: true });
 
   const tasks = [
     fetchUsCnn(),
@@ -298,12 +323,26 @@ const refreshAll = async () => {
   ];
 
   const results = await Promise.allSettled(tasks);
+  const okCount = results.filter((r) => r.status === "fulfilled").length;
+  const failCount = results.length - okCount;
   for (const r of results) {
     if (r.status === "fulfilled") {
       setItem(r.value.id, r.value);
       continue;
     }
   }
+
+  if (okCount === 0) {
+    setHint("网络有点慢，稍后会自动重试。", { loading: false });
+    return;
+  }
+
+  if (failCount > 0) {
+    setHint("部分数据还在路上，稍后会自动补齐。", { loading: true, autoHideMs: 2500 });
+    return;
+  }
+
+  setHint("数据已更新。", { loading: false, autoHideMs: 1800 });
 };
 
 render();

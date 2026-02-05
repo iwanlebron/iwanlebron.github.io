@@ -100,6 +100,53 @@ h1 {
   gap: 12px;
 }
 
+.hint {
+  margin: 2px 0 12px;
+  min-height: 18px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 18px;
+  opacity: 0.92;
+  transition: opacity 220ms ease;
+}
+
+.hint.isHidden {
+  opacity: 0;
+}
+
+.hint.isLoading::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.48));
+  animation: hintPulse 1s ease-in-out infinite;
+  vertical-align: -1px;
+}
+
+@media (prefers-color-scheme: light) {
+  .hint.isLoading::before {
+    background: linear-gradient(90deg, rgba(17, 24, 39, 0.12), rgba(17, 24, 39, 0.28));
+  }
+}
+
+@keyframes hintPulse {
+  0% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-1px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+}
+
 @media (min-width: 720px) {
   .grid {
     grid-template-columns: 1fr 1fr;
