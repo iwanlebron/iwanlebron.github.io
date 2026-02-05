@@ -32,13 +32,13 @@ const parseCsv = (csv) => {
   const dateIdx = header.indexOf("Date");
   if (closeIdx === -1 || dateIdx === -1) return [];
   return lines
-    .slice(1)
-    .map((line) => line.split(","))
-    .map((cols) => ({
-      date: cols[dateIdx],
-      close: Number(cols[closeIdx]),
-    }))
-    .filter((row) => row.date && Number.isFinite(row.close));
+      .slice(1)
+      .map((line) => line.split(","))
+      .map((cols) => ({
+        date: cols[dateIdx],
+        close: Number(cols[closeIdx]),
+      }))
+      .filter((row) => row.date && Number.isFinite(row.close));
 };
 
 const stddev = (arr) => {
@@ -219,11 +219,14 @@ const fetchUsCnn = async () => {
   const fg = json?.fear_and_greed;
   const score = fg ? Number(fg.score) : null;
   const date = fg?.timestamp ? String(fg.timestamp) : today;
+  const roundedScore = Number.isFinite(score) ? Math.round(score) : null;
+  const bucketLabel = roundedScore === null ? "—" : getBucket(roundedScore).label;
+  const rawLabel = fg ? translateCnnRating(fg.rating) : "—";
   return {
     id: "us",
-    score: Number.isFinite(score) ? Math.round(score) : null,
-    classification: fg ? translateCnnRating(fg.rating) : "—",
-    source: "来源：CNN (via dataviz)",
+    score: roundedScore,
+    classification: bucketLabel,
+    source: `来源：CNN (via dataviz)；原始评级：${rawLabel}`,
     dataTime: date,
   };
 };
@@ -260,7 +263,7 @@ const fetchSentimentFromStooq = async ({ symbol, sourceLabel }) => {
   const volScore = 100 - volPct;
 
   const score =
-    rsi === null ? null : clamp(Math.round(0.7 * rsi + 0.3 * volScore), 0, 100);
+      rsi === null ? null : clamp(Math.round(0.7 * rsi + 0.3 * volScore), 0, 100);
 
   const bucket = score === null ? { label: "—" } : getBucket(score);
   return {
