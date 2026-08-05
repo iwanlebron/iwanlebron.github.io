@@ -3,53 +3,114 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="聚焦美股与加密市场的恐慌贪婪指数，标注数据出处并自动刷新。"
+    />
     <meta name="color-scheme" content="light dark" />
-    <title>恐慌贪婪指数</title>
+    <meta name="theme-color" content="#f4f7fb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#08111f" media="(prefers-color-scheme: dark)" />
+    <title>恐慌贪婪指数｜美股与加密</title>
+    <link rel="preconnect" href="https://production.dataviz.cnn.io" crossorigin />
+    <link rel="preconnect" href="https://api.alternative.me" crossorigin />
+    <link rel="dns-prefetch" href="//r.jina.ai" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="container">
-      <header>
-        <div class="title">
-          <h1>恐慌贪婪指数</h1>
-          <p class="subtitle">展示：美股、港股、A股、加密货币</p>
+    <a class="skipLink" href="#markets">跳到指数</a>
+
+    <div class="shell">
+      <header class="hero">
+        <div class="eyebrow">
+          <span class="eyebrowDot" aria-hidden="true"></span>
+          市场情绪温度计
         </div>
-        <div class="pill" id="updatedAt" aria-live="polite">更新时间：—</div>
+        <h1>恐慌，还是贪婪？</h1>
+        <p class="intro">聚焦美股与加密市场，用两个 0–100 指数快速读懂当下情绪。</p>
+
+        <div class="toolbar" role="group" aria-label="数据刷新状态">
+          <div class="updateSummary">
+            <p id="updatedAt">等待首次更新</p>
+            <p id="nextRefresh">数据每 5 分钟自动刷新</p>
+          </div>
+          <button class="refreshButton" id="refreshButton" type="button">
+            <span class="refreshIcon" aria-hidden="true">↻</span>
+            <span>立即刷新</span>
+          </button>
+        </div>
       </header>
 
-      <div class="hint" id="hint" aria-live="polite"></div>
+      <main id="markets" tabindex="-1">
+        <div class="statusMessage" id="hint" role="status" hidden></div>
 
-      <main class="grid" id="grid" aria-label="指数列表"></main>
+        <section class="grid" id="grid" aria-label="市场恐慌贪婪指数" aria-busy="true"></section>
 
-      <section class="legend" aria-label="分段说明">
-        <div>
-          数值范围为 0–100：越低代表越恐慌，越高代表越贪婪。加密货币使用 Alternative.me 数据，美股使用 CNN Fear &amp; Greed 数据；A股与港股为基于指数价格计算的情绪分数（0–100）。
-        </div>
-        <div class="legendRow" role="list">
-          <div class="chip" role="listitem">
-            <div class="dot danger" aria-hidden="true"></div>
-            <div class="chipText"><strong>0–20</strong><span>极度恐慌</span></div>
+        <section class="guide" aria-labelledby="guideTitle">
+          <div class="guideHeader">
+            <div>
+              <p class="sectionKicker">READ THE MOOD</p>
+              <h2 id="guideTitle">如何阅读</h2>
+            </div>
+            <p>越接近 0，市场越恐慌；越接近 100，市场越贪婪。</p>
           </div>
-          <div class="chip" role="listitem">
-            <div class="dot warning" aria-hidden="true"></div>
-            <div class="chipText"><strong>21–40</strong><span>恐慌</span></div>
+
+          <div class="sentimentScale" aria-hidden="true">
+            <div class="scaleTrack"></div>
+            <div class="scaleLabels">
+              <span><strong>0</strong> 极度恐慌</span>
+              <span><strong>50</strong> 中性</span>
+              <span><strong>100</strong> 极度贪婪</span>
+            </div>
           </div>
-          <div class="chip" role="listitem">
-            <div class="dot neutral" aria-hidden="true"></div>
-            <div class="chipText"><strong>41–60</strong><span>中性</span></div>
+
+          <p class="methodNote">
+            两个平台的评级阈值并不完全相同。卡片中的“恐慌 / 中性 / 贪婪”沿用各自来源的原始评级，不做二次分档。
+          </p>
+
+          <div class="sourceGrid" role="list" aria-label="数据来源说明">
+            <article class="sourceNote" role="listitem">
+              <h3>美股数据</h3>
+              <p>
+                出处：
+                <a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank" rel="noreferrer">
+                  CNN Fear &amp; Greed Index<span class="externalMark" aria-hidden="true">↗</span>
+                  <span class="srOnly">（新窗口打开）</span>
+                </a>
+              </p>
+              <p class="sourceDetail">
+                CNN 综合市场动量、波动率、避险需求等指标。页面优先直连 CNN；浏览器直连受限时通过 Jina AI Reader 读取。
+              </p>
+            </article>
+            <article class="sourceNote" role="listitem">
+              <h3>加密数据</h3>
+              <p>
+                出处：
+                <a
+                  href="https://alternative.me/crypto/fear-and-greed-index/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Alternative.me Crypto Fear &amp; Greed Index<span class="externalMark" aria-hidden="true">↗</span>
+                  <span class="srOnly">（新窗口打开）</span>
+                </a>
+              </p>
+              <p class="sourceDetail">
+                Alternative.me 综合波动率、市场动量与交易量、社交媒体、市场主导率和搜索趋势等因素；该指数当前以 Bitcoin（比特币）市场情绪为对象。
+              </p>
+            </article>
           </div>
-          <div class="chip" role="listitem">
-            <div class="dot good" aria-hidden="true"></div>
-            <div class="chipText"><strong>61–80</strong><span>贪婪</span></div>
-          </div>
-          <div class="chip" role="listitem">
-            <div class="dot great" aria-hidden="true"></div>
-            <div class="chipText"><strong>81–100</strong><span>极度贪婪</span></div>
-          </div>
-        </div>
-      </section>
+
+          <p class="disclaimer">
+            仅供市场情绪参考，不构成投资、财务或交易建议。数据可能延迟、缺失或调整，请以来源页面为准。
+          </p>
+        </section>
+      </main>
     </div>
 
-    <script src="./app.js"></script>
+    <noscript>
+      <div class="noscript">此页面需要 JavaScript 才能从数据源获取最新指数。</div>
+    </noscript>
+    <script src="./app.js" defer></script>
   </body>
 </html>
